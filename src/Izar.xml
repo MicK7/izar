@@ -1,0 +1,1754 @@
+<ServerManagerConfiguration>
+<!-- This is the server manager configuration XML. It defines the interface to
+our new filter. As a rule of thumb, try to locate the configuration for
+a filter already in ParaView (in Servers/ServerManager/Resources/*.xml)
+that matches your filter and then model your xml on it -->
+  <ProxyGroup name="filters">
+    <SourceProxy name="AddFieldDataPG" class="vtkIzarAddFieldDataPG" label="Add Field Data PG">
+      <Documentation
+      long_help="Allows the user to add specific FieldData"
+      short_help="Allows the user to add specific FieldData"> 
+      Allows the user to add specific FieldData, related with a 
+      turbomachinery computation with perfect gas :
+        - Gamma (heat capacity ratio)
+        - Rgas (perfect gas constant)
+        - Omega (rotation speed of the dataset)
+        - Zsector (number of duplications needed to cover the full 360° domain)
+      </Documentation>
+      
+      <InputProperty
+      name="Input"
+      port_index="0"
+      command="SetInputConnection">
+        <ProxyGroupDomain name="groups">
+                    <Group name="sources"/>
+                    <Group name="filters"/>
+                </ProxyGroupDomain>
+                <DataTypeDomain name="input_type">
+                    <DataType value="vtkDataSet"/>
+                </DataTypeDomain>
+      </InputProperty>
+      
+      <DoubleVectorProperty
+                name="Gamma"
+                label="Gamma"
+                command="SetGamma"
+                number_of_elements="1"
+                default_values="1.4">
+                <Documentation>Heat capacity ratio</Documentation>
+            </DoubleVectorProperty>
+            <DoubleVectorProperty
+                name="Rgas"
+                label="Rgas"
+                command="SetRgas"
+                number_of_elements="1"
+                default_values="287.05">
+                <Documentation>Perfect gas constant</Documentation>
+            </DoubleVectorProperty>
+            <DoubleVectorProperty
+                name="Omega"
+                label="Omega"
+                command="SetOmega"
+                number_of_elements="1"
+                default_values="0.0">
+                <Documentation>Rotation speed</Documentation>
+            </DoubleVectorProperty>
+            <IntVectorProperty
+                name="Zsector"
+                label="Zsector"
+                command="SetZsector"
+                number_of_elements="1"
+                default_values="1">
+                <Documentation>Number of sectors needed to cover the full 360° domain</Documentation>
+            </IntVectorProperty>
+      <Hints>
+        <Visibility replace_input="2" />
+        <ShowInMenu category="Izar" />
+      </Hints>
+    </SourceProxy>
+   
+    <SourceProxy name="AddFieldDataCpT"
+                class="vtkIzarAddFieldDataCpT" label="Add Field Data for Cp(T) gas model">
+         <Documentation
+         long_help="Allows the user to add specific FieldData"
+         short_help="Allows the user to add specific FieldData"> 
+         Allows the user to add specific FieldData, related with a 
+         turbomachinery computation with perfect gas :
+           - Gamma (heat capacity ratio)
+           - Rgas (perfect gas constant for air)
+           - Rfuel (perfect gas constant for fuel)
+           - Rwater (perfect gas constant for water)
+           - FAR (Fuel Air Ratio)
+           - WAR (Water Air Ratio)
+           - Omega (rotation speed of the dataset)
+           - Zsector (number of duplications needed to cover the full 360° domain)
+         </Documentation>
+         
+         <InputProperty
+         name="Input"
+         port_index="0"
+         command="SetInputConnection">
+           <ProxyGroupDomain name="groups">
+                       <Group name="sources"/>
+                       <Group name="filters"/>
+                   </ProxyGroupDomain>
+                   <DataTypeDomain name="input_type">
+                       <DataType value="vtkDataSet"/>
+                   </DataTypeDomain>
+         </InputProperty>
+         
+               <DoubleVectorProperty
+                   name="Rgas"
+                   label="Rgas"
+                   command="SetRgas"
+                   number_of_elements="1"
+                   default_values="287.05">
+                   <Documentation>Perfect gas constant for air</Documentation>
+               </DoubleVectorProperty>
+               <DoubleVectorProperty
+                   name="Rfuel"
+                   label="Rfuel"
+                   command="SetRfuel"
+                   number_of_elements="1"
+                   default_values="287.05">
+                   <Documentation>Perfect gas constant for fuel</Documentation>
+               </DoubleVectorProperty>
+               <DoubleVectorProperty
+                   name="Rwater"
+                   label="Rwater"
+                   command="SetRwater"
+                   number_of_elements="1"
+                   default_values="287.05">
+                   <Documentation>Perfect gas constant for water</Documentation>
+               </DoubleVectorProperty>
+               <DoubleVectorProperty
+                   name="FAR"
+                   label="FAR"
+                   command="SetFAR"
+                   number_of_elements="1"
+                   default_values="0.0">
+                   <Documentation>Fuel Air Ratio</Documentation>
+               </DoubleVectorProperty>
+               <DoubleVectorProperty
+                   name="WAR"
+                   label="WAR"
+                   command="SetWAR"
+                   number_of_elements="1"
+                   default_values="0.0">
+                   <Documentation>Water Air Ratio</Documentation>
+               </DoubleVectorProperty>
+               <DoubleVectorProperty
+                   name="Omega"
+                   label="Omega"
+                   command="SetOmega"
+                   number_of_elements="1"
+                   default_values="0.0">
+                   <Documentation>Rotation speed</Documentation>
+               </DoubleVectorProperty>
+               <IntVectorProperty
+                   name="Zsector"
+                   label="Zsector"
+                   command="SetZsector"
+                   number_of_elements="1"
+                   default_values="1">
+                   <Documentation>Number of sectors needed to cover the full 360° domain</Documentation>
+               </IntVectorProperty>
+         <Hints>
+           <Visibility replace_input="2" />
+           <ShowInMenu category="Izar" />
+         </Hints>
+       </SourceProxy>
+
+    <SourceProxy name="AddCpTPolynomial"
+                 class="vtkIzarAddCpTPolynomial"
+                 label="Add Cp(T) polynomials">
+         <Documentation
+         short_help="Allows the user to add specific Cp(T) polynomial"
+         long_help="Allows the user to add specific Cp(T) polynomial">
+         Specify polynomial coefficients for Cp(T).
+         By default 8 polynomials coefficient are available.
+         If you want to add polynomials or order greater than 7,
+         you should consider modifying this interface
+         but the rest should work just fine.
+         </Documentation>
+         
+         <InputProperty name="Input"
+                        port_index="0"
+                        command="SetInputConnection">
+             <ProxyGroupDomain name="groups">
+                 <Group name="sources"/>
+                 <Group name="filters"/>
+             </ProxyGroupDomain>
+             <DataTypeDomain name="input_type">
+                 <DataType value="vtkDataSet"/>
+             </DataTypeDomain>
+         </InputProperty>
+         <DoubleVectorProperty
+                   argument_is_array="1"
+                   name="CpAirPoly"
+                   label="CpAirPoly"
+                   command="SetCpAirPoly"
+                   number_of_elements="8"
+                   default_values="0 0 0 0 0 0 0 0">
+             <Documentation>Cp(T) polynomial for air</Documentation>
+         </DoubleVectorProperty>
+         <DoubleVectorProperty
+                   argument_is_array="1"
+                   name="CpFuelPoly"
+                   label="CpFuelPoly"
+                   command="SetCpFuelPoly"
+                   number_of_elements="8"
+                   default_values="0 0 0 0 0 0 0 0">
+             <Documentation>Cp(T) polynomial for fuel</Documentation>
+         </DoubleVectorProperty>
+         <DoubleVectorProperty
+                   argument_is_array="1"
+                   name="CpWaterPoly"
+                   label="CpWaterPoly"
+                   command="SetCpWaterPoly"
+                   number_of_elements="8"
+                   default_values="0 0 0 0 0 0 0 0">
+             <Documentation>Cp(T) polynomial for water</Documentation>
+         </DoubleVectorProperty>
+         <Hints>
+           <Visibility replace_input="2" />
+           <ShowInMenu category="Izar" />
+         </Hints>
+    </SourceProxy>
+ 
+    <SourceProxy name="AddFieldDataGeneric" class="vtkIzarAddFieldDataGeneric" label="Add Field Data Generic">
+      <Documentation
+      long_help="Allows the user to add generic FieldData"
+      short_help="Allows the user to add generic FieldData">
+      The interface is a text field. The text field can contain one line per FieldData to add.
+      Each line contains :
+        - The FieldData name. If it contains spaces, it must be enclosed in quotes.
+        - One or more spaces
+        - The value. If it does not contain a decimal separator ("."), it
+        is interpreted as an int. Otherwise, it is interpreted as a
+        double.
+
+      Blank lines are allowed. Tab characters are interpreted as spaces.
+      If the formatting of one or more lines is uncorrect, an error
+      message is printed and no FieldData is added.
+      </Documentation>
+      
+      <InputProperty
+      name="Input"
+      port_index="0"
+      command="SetInputConnection">
+        <ProxyGroupDomain name="groups">
+                    <Group name="sources"/>
+                    <Group name="filters"/>
+                </ProxyGroupDomain>
+                <DataTypeDomain name="input_type">
+                    <DataType value="vtkDataSet"/>
+                </DataTypeDomain>
+      </InputProperty>
+      
+      <StringVectorProperty name="ElementList"
+        command="SetElementList"
+        number_of_elements="1"
+        default_values="">
+        <Hints>                                                                 
+          <Widget type="multi_line" />                          
+        </Hints>
+        <Documentation>Specify the FieldData names and values here</Documentation>
+      </StringVectorProperty>
+      <Hints>
+        <Visibility replace_input="2" />
+        <ShowInMenu category="Izar" />
+      </Hints>
+    </SourceProxy>
+    
+    <SourceProxy name="AddFieldDataByBlock"
+                 class="vtkIzarAddFieldDataByBlock"
+                 label="Add Field Data By Block">
+      <Documentation
+      long_help="Allows the user to add FieldData defined at each block individually"
+      short_help="Allows the user to add FieldData defined at each block individually">
+      </Documentation>
+      
+      <InputProperty
+      name="Input"
+      port_index="0"
+      command="SetInputConnection">
+        <ProxyGroupDomain name="groups">
+                    <Group name="sources"/>
+                    <Group name="filters"/>
+                </ProxyGroupDomain>
+                <DataTypeDomain name="input_type">
+                    <DataType value="vtkMultiBlockDataSet"/>
+                </DataTypeDomain>
+      </InputProperty>
+      
+      <StringVectorProperty name="FileName"
+        command="SetFileName"
+        number_of_elements="1"
+        default_values="">
+        <FileListDomain name="files" />
+        <Documentation>JSON or YAML file defining the values to add</Documentation>
+      </StringVectorProperty>
+      <Hints>
+        <Visibility replace_input="2" />
+        <ShowInMenu category="Izar" />
+      </Hints>
+    </SourceProxy>
+    
+    <SourceProxy name="ExtractSubsetFromFile" class="vtkIzarExtractSubsetFromFile" label="Extract Subset From File">
+      <Documentation
+      long_help="Extracts patches specified in a JSON/YAML file"
+      short_help="Extracts patches specified in a JSON/YAML file">
+      </Documentation>
+      
+      <InputProperty
+      name="Input"
+      port_index="0"
+      command="SetInputConnection">
+        <ProxyGroupDomain name="groups">
+                    <Group name="sources"/>
+                    <Group name="filters"/>
+                </ProxyGroupDomain>
+                <DataTypeDomain name="input_type">
+                    <DataType value="vtkMultiBlockDataSet"/>
+                </DataTypeDomain>
+      </InputProperty>
+      
+      <StringVectorProperty name="FileName"
+        command="SetFileName"
+        number_of_elements="1"
+        default_values="">
+        <FileListDomain name="files" />
+        <Documentation>JSON or YAML file defining the patches</Documentation>
+      </StringVectorProperty>
+      <Hints>
+        <Visibility replace_input="2" />
+        <ShowInMenu category="Izar" />
+      </Hints>
+    </SourceProxy>
+    
+    <SourceProxy name="FilterBlocksByFieldData" class="vtkIzarFilterBlocksByFieldData" label="Filter Blocks By Field Data">
+      <Documentation
+      long_help="Keep only the blocks matching some field data"
+      short_help="Keep only the blocks matching some field data">
+      </Documentation>
+      
+      <InputProperty
+      name="Input"
+      port_index="0"
+      command="SetInputConnection">
+        <ProxyGroupDomain name="groups">
+                    <Group name="sources"/>
+                    <Group name="filters"/>
+                </ProxyGroupDomain>
+                <DataTypeDomain name="input_type">
+                    <DataType value="vtkMultiBlockDataSet"/>
+                </DataTypeDomain>
+                <InputArrayDomain attribute_type="field"
+          name="input_array"
+                    number_of_components="1" />
+      </InputProperty>
+      
+      <StringVectorProperty command="SetFieldName"
+        element_types="0 0 0 0 2"
+                label="Field Name"
+                name="FieldName"
+                number_of_elements="5">
+        <ArrayListDomain attribute_type="Scalars"
+          name="array_list">
+          <RequiredProperties>
+            <Property function="Input"
+              name="Input" />
+          </RequiredProperties>
+        </ArrayListDomain>
+        <FieldDataDomain name="field_list"
+          enable_field_data="1">
+          <RequiredProperties>
+            <Property function="Input"
+              name="Input" />
+          </RequiredProperties>
+        </FieldDataDomain>
+        <Documentation>The value of this property contains the name of the
+          scalar array from which to perform thresholding.</Documentation>
+      </StringVectorProperty>
+      
+      <IntVectorProperty name="UseRange"
+                label="Use Range"
+                command="SetUseRange"
+                number_of_elements="1"
+                default_values="0">
+                <BooleanDomain name="bool"/>
+            </IntVectorProperty>
+            
+            <DoubleVectorProperty name="Value"
+                label="Value"
+                command="SetValue"
+                number_of_elements="1"
+                default_values="0">
+                <ArrayRangeDomain name="scalar_range">
+          <RequiredProperties>
+            <Property function="Input"
+              name="Input" />
+            <Property function="ArraySelection"
+              name="FieldName" />
+          </RequiredProperties>
+        </ArrayRangeDomain>
+                <Hints>
+          <PropertyWidgetDecorator type="GenericDecorator"
+            mode="visibility"
+                        property="UseRange"
+                        value="0" />
+        </Hints>
+            </DoubleVectorProperty>
+            <DoubleVectorProperty name="Tolerance"
+        label="Tolerance"
+        command="SetTolerance"
+        number_of_elements="1"
+        default_values="0">
+        <Hints>
+          <PropertyWidgetDecorator type="GenericDecorator"
+            mode="visibility"
+                        property="UseRange"
+                        value="0" />
+        </Hints>
+      </DoubleVectorProperty>
+            
+            <DoubleVectorProperty command="SetRange"
+                            default_values="0 0"
+                            label="Range"
+                            name="Range"
+                            number_of_elements="2"
+                            panel_widget="double_range">
+        <ArrayRangeDomain name="range">
+          <RequiredProperties>
+            <Property function="Input"
+              name="Input" />
+            <Property function="ArraySelection"
+              name="FieldName" />
+          </RequiredProperties>
+        </ArrayRangeDomain>
+        <Hints>
+          <PropertyWidgetDecorator type="GenericDecorator"
+            mode="visibility"
+                        property="UseRange"
+                        value="1" />
+        </Hints>
+      </DoubleVectorProperty>
+      
+      <IntVectorProperty name="KeepEmptyNodes"
+                label="Keep Empty Nodes"
+                command="SetKeepEmptyNodes"
+                number_of_elements="1"
+                default_values="0">
+                <BooleanDomain name="bool"/>
+            </IntVectorProperty>
+      
+      <Hints>
+        <Visibility replace_input="2" />
+        <ShowInMenu category="Izar" />
+      </Hints>
+    </SourceProxy>
+    
+    <SourceProxy name="ReconstructFields"
+                 class="vtkIzarReconstructFields"
+                 label="Reconstruct Fields">
+      <Documentation
+      long_help="Reconstruct fields based on the conservative variables"
+      short_help="Reconstruct fields based on the conservative variables">
+      </Documentation>
+      
+      <InputProperty name="Input"
+                     port_index="0"
+                     command="SetInputConnection">
+        <ProxyGroupDomain name="groups">
+          <Group name="sources"/>
+          <Group name="filters"/>
+        </ProxyGroupDomain>
+        <DataTypeDomain name="input_type">
+          <DataType value="vtkPointSet"/>
+        </DataTypeDomain>
+      </InputProperty>
+      
+      <IntVectorProperty name="AdvancedMode"
+                         label="Advanced Mode"
+                         command="SetAdvancedMode"
+                         number_of_elements="1"
+                         default_values="0">
+        <BooleanDomain name="bool"/>
+      </IntVectorProperty>
+            
+      <IntVectorProperty name="ReplaceVars"
+                         label="Replace Vars"
+                         command="SetReplaceVars"
+                         number_of_elements="1"
+                         default_values="1">
+        <BooleanDomain name="bool"/>
+        <Hints>
+          <PropertyWidgetDecorator type="GenericDecorator"
+                                   mode="visibility"
+                                   property="AdvancedMode"
+                                   value="1"/>
+        </Hints>
+      </IntVectorProperty>
+            
+      <DoubleVectorProperty name="SutherlandConstant"
+                            label="Sutherland Constant"
+                            command="SetSuthConst"
+                            number_of_elements="1"
+                            default_values="110.4">
+        <Hints>
+          <PropertyWidgetDecorator type="GenericDecorator"
+                                   mode="visibility"
+                                   property="AdvancedMode"
+                                   value="1" />
+        </Hints>
+      </DoubleVectorProperty>
+      <DoubleVectorProperty name="SutherlandRefTemperature"
+                            label="Sutherland Ref Temperature"
+                            command="SetSuthTRef"
+                            number_of_elements="1"
+                            default_values="273.0">
+        <Hints>
+          <PropertyWidgetDecorator type="GenericDecorator"
+                                   mode="visibility"
+                                   property="AdvancedMode"
+                                   value="1" />
+        </Hints>
+      </DoubleVectorProperty>
+      <DoubleVectorProperty name="SutherlandRefViscosity"
+                            label="Sutherland Ref Viscosity"
+                            command="SetSuthMuRef"
+                            number_of_elements="1"
+                            default_values="0.00001717">
+        <Hints>
+          <PropertyWidgetDecorator type="GenericDecorator"
+                                   mode="visibility"
+                                   property="AdvancedMode"
+                                   value="1" />
+        </Hints>
+      </DoubleVectorProperty>
+        
+      <IntVectorProperty name="ComputePs"
+                         label="Compute Ps"
+                         command="SetComputePs"
+                         number_of_elements="1"
+                         default_values="1">
+        <BooleanDomain name="bool"/>
+        <Hints>
+          <PropertyWidgetDecorator type="GenericDecorator"
+            mode="visibility"
+            property="AdvancedMode"
+            value="1" />
+        </Hints>
+      </IntVectorProperty>
+
+      <IntVectorProperty name="ComputeTs"
+        label="Compute Ts"
+        command="SetComputeTs"
+        number_of_elements="1"
+        default_values="1">
+        <BooleanDomain name="bool"/>
+        <Hints>
+          <PropertyWidgetDecorator type="GenericDecorator"
+            mode="visibility"
+            property="AdvancedMode"
+            value="1" />
+        </Hints>
+      </IntVectorProperty>
+
+      <IntVectorProperty name="ComputePtabs"
+        label="Compute Ptabs"
+        command="SetComputePtabs"
+        number_of_elements="1"
+        default_values="1">
+        <BooleanDomain name="bool"/>
+        <Hints>
+          <PropertyWidgetDecorator type="GenericDecorator"
+            mode="visibility"
+            property="AdvancedMode"
+            value="1" />
+        </Hints>
+      </IntVectorProperty>
+
+      <IntVectorProperty name="ComputeTtabs"
+        label="Compute Ttabs"
+        command="SetComputeTtabs"
+        number_of_elements="1"
+        default_values="1">
+        <BooleanDomain name="bool"/>
+        <Hints>
+          <PropertyWidgetDecorator type="GenericDecorator"
+            mode="visibility"
+            property="AdvancedMode"
+            value="1" />
+        </Hints>
+      </IntVectorProperty>
+
+      <IntVectorProperty name="ComputePtrel"
+        label="Compute Ptrel"
+        command="SetComputePtrel"
+        number_of_elements="1"
+        default_values="1">
+        <BooleanDomain name="bool"/>
+        <Hints>
+          <PropertyWidgetDecorator type="GenericDecorator"
+            mode="visibility"
+            property="AdvancedMode"
+            value="1" />
+        </Hints>
+      </IntVectorProperty>
+
+      <IntVectorProperty name="ComputeTtrel"
+        label="Compute Ttrel"
+        command="SetComputeTtrel"
+        number_of_elements="1"
+        default_values="1">
+        <BooleanDomain name="bool"/>
+        <Hints>
+          <PropertyWidgetDecorator type="GenericDecorator"
+            mode="visibility"
+            property="AdvancedMode"
+            value="1" />
+        </Hints>
+      </IntVectorProperty>
+
+      <IntVectorProperty name="ComputeS"
+        label="Compute S"
+        command="SetComputeS"
+        number_of_elements="1"
+        default_values="1">
+        <BooleanDomain name="bool"/>
+        <Hints>
+          <PropertyWidgetDecorator type="GenericDecorator"
+            mode="visibility"
+            property="AdvancedMode"
+            value="1" />
+        </Hints>
+      </IntVectorProperty>
+
+      <IntVectorProperty name="ComputeV"
+        label="Compute V"
+        command="SetComputeV"
+        number_of_elements="1"
+        default_values="1">
+        <BooleanDomain name="bool"/>
+        <Hints>
+          <PropertyWidgetDecorator type="GenericDecorator"
+            mode="visibility"
+            property="AdvancedMode"
+            value="1" />
+        </Hints>
+      </IntVectorProperty>
+
+      <IntVectorProperty name="ComputeW"
+        label="Compute W"
+        command="SetComputeW"
+        number_of_elements="1"
+        default_values="1">
+        <BooleanDomain name="bool"/>
+        <Hints>
+          <PropertyWidgetDecorator type="GenericDecorator"
+            mode="visibility"
+            property="AdvancedMode"
+            value="1" />
+        </Hints>
+      </IntVectorProperty>
+
+      <IntVectorProperty name="ComputeM"
+        label="Compute M"
+        command="SetComputeM"
+        number_of_elements="1"
+        default_values="1">
+        <BooleanDomain name="bool"/>
+        <Hints>
+          <PropertyWidgetDecorator type="GenericDecorator"
+            mode="visibility"
+            property="AdvancedMode"
+            value="1" />
+        </Hints>
+      </IntVectorProperty>
+
+      <IntVectorProperty name="ComputeMrel"
+        label="Compute Mrel"
+        command="SetComputeMrel"
+        number_of_elements="1"
+        default_values="1">
+        <BooleanDomain name="bool"/>
+        <Hints>
+          <PropertyWidgetDecorator type="GenericDecorator"
+            mode="visibility"
+            property="AdvancedMode"
+            value="1" />
+        </Hints>
+      </IntVectorProperty>
+
+      <IntVectorProperty name="ComputePhi"
+        label="Compute Phi"
+        command="SetComputePhi"
+        number_of_elements="1"
+        default_values="1">
+        <BooleanDomain name="bool"/>
+        <Hints>
+          <PropertyWidgetDecorator type="GenericDecorator"
+            mode="visibility"
+            property="AdvancedMode"
+            value="1" />
+        </Hints>
+      </IntVectorProperty>
+
+      <IntVectorProperty name="ComputeAlpha"
+        label="Compute Alpha"
+        command="SetComputeAlpha"
+        number_of_elements="1"
+        default_values="1">
+        <BooleanDomain name="bool"/>
+        <Hints>
+          <PropertyWidgetDecorator type="GenericDecorator"
+            mode="visibility"
+            property="AdvancedMode"
+            value="1" />
+        </Hints>
+      </IntVectorProperty>
+
+      <IntVectorProperty name="ComputeBeta"
+        label="Compute Beta"
+        command="SetComputeBeta"
+        number_of_elements="1"
+        default_values="1">
+        <BooleanDomain name="bool"/>
+        <Hints>
+          <PropertyWidgetDecorator type="GenericDecorator"
+            mode="visibility"
+            property="AdvancedMode"
+            value="1" />
+        </Hints>
+      </IntVectorProperty>
+
+      <IntVectorProperty name="ComputeMu"
+        label="Compute Mu"
+        command="SetComputeMu"
+        number_of_elements="1"
+        default_values="1">
+        <BooleanDomain name="bool"/>
+        <Hints>
+          <PropertyWidgetDecorator type="GenericDecorator"
+            mode="visibility"
+            property="AdvancedMode"
+            value="1" />
+        </Hints>
+      </IntVectorProperty>
+
+            
+            <Hints>
+        <Visibility replace_input="2" />
+        <ShowInMenu category="Izar" />
+      </Hints>
+    </SourceProxy>
+    <SourceProxy name="ReconstructFieldsCpT"
+                 class="vtkIzarCpTReconstructFields"
+                 label="Reconstruct Fields for Cp(T) gas model">
+      <Documentation
+      long_help="Reconstruct fields based on the conservative variables with Cp(T) polynomial gas model"
+      short_help="Reconstruct fields based on the conservative variables">
+      </Documentation>
+      
+      <InputProperty name="Input"
+                     port_index="0"
+                     command="SetInputConnection">
+        <ProxyGroupDomain name="groups">
+          <Group name="sources"/>
+          <Group name="filters"/>
+        </ProxyGroupDomain>
+        <DataTypeDomain name="input_type">
+          <DataType value="vtkPointSet"/>
+        </DataTypeDomain>
+      </InputProperty>
+      
+      <IntVectorProperty name="AdvancedMode"
+                         label="Advanced Mode"
+                         command="SetAdvancedMode"
+                         number_of_elements="1"
+                         default_values="0">
+        <BooleanDomain name="bool"/>
+      </IntVectorProperty>
+            
+      <IntVectorProperty name="ReplaceVars"
+                         label="Replace Vars"
+                         command="SetReplaceVars"
+                         number_of_elements="1"
+                         default_values="1">
+        <BooleanDomain name="bool"/>
+        <Hints>
+          <PropertyWidgetDecorator type="GenericDecorator"
+                                   mode="visibility"
+                                   property="AdvancedMode"
+                                   value="1"/>
+        </Hints>
+      </IntVectorProperty>
+            
+      <DoubleVectorProperty name="SutherlandConstant"
+                            label="Sutherland Constant"
+                            command="SetSuthConst"
+                            number_of_elements="1"
+                            default_values="110.4">
+        <Hints>
+          <PropertyWidgetDecorator type="GenericDecorator"
+                                   mode="visibility"
+                                   property="AdvancedMode"
+                                   value="1" />
+        </Hints>
+      </DoubleVectorProperty>
+      <DoubleVectorProperty name="SutherlandRefTemperature"
+                            label="Sutherland Ref Temperature"
+                            command="SetSuthTRef"
+                            number_of_elements="1"
+                            default_values="273.0">
+        <Hints>
+          <PropertyWidgetDecorator type="GenericDecorator"
+                                   mode="visibility"
+                                   property="AdvancedMode"
+                                   value="1" />
+        </Hints>
+      </DoubleVectorProperty>
+      <DoubleVectorProperty name="SutherlandRefViscosity"
+                            label="Sutherland Ref Viscosity"
+                            command="SetSuthMuRef"
+                            number_of_elements="1"
+                            default_values="0.00001717">
+        <Hints>
+          <PropertyWidgetDecorator type="GenericDecorator"
+                                   mode="visibility"
+                                   property="AdvancedMode"
+                                   value="1" />
+        </Hints>
+      </DoubleVectorProperty>
+        
+      <IntVectorProperty name="ComputePs"
+                         label="Compute Ps"
+                         command="SetComputePs"
+                         number_of_elements="1"
+                         default_values="1">
+        <BooleanDomain name="bool"/>
+        <Hints>
+          <PropertyWidgetDecorator type="GenericDecorator"
+            mode="visibility"
+            property="AdvancedMode"
+            value="1" />
+        </Hints>
+      </IntVectorProperty>
+
+      <IntVectorProperty name="ComputePtabs"
+        label="Compute Ptabs"
+        command="SetComputePtabs"
+        number_of_elements="1"
+        default_values="1">
+        <BooleanDomain name="bool"/>
+        <Hints>
+          <PropertyWidgetDecorator type="GenericDecorator"
+            mode="visibility"
+            property="AdvancedMode"
+            value="1" />
+        </Hints>
+      </IntVectorProperty>
+
+      <IntVectorProperty name="ComputeTtabs"
+        label="Compute Ttabs"
+        command="SetComputeTtabs"
+        number_of_elements="1"
+        default_values="1">
+        <BooleanDomain name="bool"/>
+        <Hints>
+          <PropertyWidgetDecorator type="GenericDecorator"
+            mode="visibility"
+            property="AdvancedMode"
+            value="1" />
+        </Hints>
+      </IntVectorProperty>
+
+      <IntVectorProperty name="ComputePtrel"
+        label="Compute Ptrel"
+        command="SetComputePtrel"
+        number_of_elements="1"
+        default_values="1">
+        <BooleanDomain name="bool"/>
+        <Hints>
+          <PropertyWidgetDecorator type="GenericDecorator"
+            mode="visibility"
+            property="AdvancedMode"
+            value="1" />
+        </Hints>
+      </IntVectorProperty>
+
+      <IntVectorProperty name="ComputeTtrel"
+        label="Compute Ttrel"
+        command="SetComputeTtrel"
+        number_of_elements="1"
+        default_values="1">
+        <BooleanDomain name="bool"/>
+        <Hints>
+          <PropertyWidgetDecorator type="GenericDecorator"
+            mode="visibility"
+            property="AdvancedMode"
+            value="1" />
+        </Hints>
+      </IntVectorProperty>
+
+      <IntVectorProperty name="ComputeS"
+        label="Compute S"
+        command="SetComputeS"
+        number_of_elements="1"
+        default_values="1">
+        <BooleanDomain name="bool"/>
+        <Hints>
+          <PropertyWidgetDecorator type="GenericDecorator"
+            mode="visibility"
+            property="AdvancedMode"
+            value="1" />
+        </Hints>
+      </IntVectorProperty>
+
+      <IntVectorProperty name="ComputeV"
+        label="Compute V"
+        command="SetComputeV"
+        number_of_elements="1"
+        default_values="1">
+        <BooleanDomain name="bool"/>
+        <Hints>
+          <PropertyWidgetDecorator type="GenericDecorator"
+            mode="visibility"
+            property="AdvancedMode"
+            value="1" />
+        </Hints>
+      </IntVectorProperty>
+
+      <IntVectorProperty name="ComputeW"
+        label="Compute W"
+        command="SetComputeW"
+        number_of_elements="1"
+        default_values="1">
+        <BooleanDomain name="bool"/>
+        <Hints>
+          <PropertyWidgetDecorator type="GenericDecorator"
+            mode="visibility"
+            property="AdvancedMode"
+            value="1" />
+        </Hints>
+      </IntVectorProperty>
+
+      <IntVectorProperty name="ComputeM"
+        label="Compute M"
+        command="SetComputeM"
+        number_of_elements="1"
+        default_values="1">
+        <BooleanDomain name="bool"/>
+        <Hints>
+          <PropertyWidgetDecorator type="GenericDecorator"
+            mode="visibility"
+            property="AdvancedMode"
+            value="1" />
+        </Hints>
+      </IntVectorProperty>
+
+      <IntVectorProperty name="ComputeMrel"
+        label="Compute Mrel"
+        command="SetComputeMrel"
+        number_of_elements="1"
+        default_values="1">
+        <BooleanDomain name="bool"/>
+        <Hints>
+          <PropertyWidgetDecorator type="GenericDecorator"
+            mode="visibility"
+            property="AdvancedMode"
+            value="1" />
+        </Hints>
+      </IntVectorProperty>
+
+      <IntVectorProperty name="ComputePhi"
+        label="Compute Phi"
+        command="SetComputePhi"
+        number_of_elements="1"
+        default_values="1">
+        <BooleanDomain name="bool"/>
+        <Hints>
+          <PropertyWidgetDecorator type="GenericDecorator"
+            mode="visibility"
+            property="AdvancedMode"
+            value="1" />
+        </Hints>
+      </IntVectorProperty>
+
+      <IntVectorProperty name="ComputeAlpha"
+        label="Compute Alpha"
+        command="SetComputeAlpha"
+        number_of_elements="1"
+        default_values="1">
+        <BooleanDomain name="bool"/>
+        <Hints>
+          <PropertyWidgetDecorator type="GenericDecorator"
+            mode="visibility"
+            property="AdvancedMode"
+            value="1" />
+        </Hints>
+      </IntVectorProperty>
+
+      <IntVectorProperty name="ComputeBeta"
+        label="Compute Beta"
+        command="SetComputeBeta"
+        number_of_elements="1"
+        default_values="1">
+        <BooleanDomain name="bool"/>
+        <Hints>
+          <PropertyWidgetDecorator type="GenericDecorator"
+            mode="visibility"
+            property="AdvancedMode"
+            value="1" />
+        </Hints>
+      </IntVectorProperty>
+
+      <IntVectorProperty name="ComputeMu"
+        label="Compute Mu"
+        command="SetComputeMu"
+        number_of_elements="1"
+        default_values="1">
+        <BooleanDomain name="bool"/>
+        <Hints>
+          <PropertyWidgetDecorator type="GenericDecorator"
+            mode="visibility"
+            property="AdvancedMode"
+            value="1" />
+        </Hints>
+      </IntVectorProperty>
+
+      <IntVectorProperty name="ComputeGamma"
+        label="Compute Gamma"
+        command="SetComputeGamma"
+        number_of_elements="1"
+        default_values="1">
+        <BooleanDomain name="bool"/>
+        <Hints>
+          <PropertyWidgetDecorator type="GenericDecorator"
+            mode="visibility"
+            property="AdvancedMode"
+            value="1" />
+        </Hints>
+      </IntVectorProperty>
+      <IntVectorProperty name="ComputeHtabs"
+        label="Compute EnthalpyStagnation"
+        command="SetComputeHtabs"
+        number_of_elements="1"
+        default_values="1">
+        <BooleanDomain name="bool"/>
+        <Hints>
+          <PropertyWidgetDecorator type="GenericDecorator"
+            mode="visibility"
+            property="AdvancedMode"
+            value="1" />
+        </Hints>
+      </IntVectorProperty>
+      <IntVectorProperty name="ComputeHtrel"
+        label="Compute RelativeEnthalpyStagnation"
+        command="SetComputeHtrel"
+        number_of_elements="1"
+        default_values="1">
+        <BooleanDomain name="bool"/>
+        <Hints>
+          <PropertyWidgetDecorator type="GenericDecorator"
+            mode="visibility"
+            property="AdvancedMode"
+            value="1" />
+        </Hints>
+      </IntVectorProperty>
+      <Hints>
+        <Visibility replace_input="2" />
+        <ShowInMenu category="Izar" />
+      </Hints>
+    </SourceProxy>
+
+    <SourceProxy name="ChangeFrame" class="vtkIzarChangeFrame" label="Change Frame">
+      <Documentation
+      long_help="Compute the total pressure and temperature, the velocity, the Mach number and flow angle in a new rotating frame"
+      short_help="Compute the total pressure and temperature, the velocity, the Mach number and flow angle in a new rotating frame">
+      </Documentation>
+      
+      <InputProperty
+      name="Input"
+      port_index="0"
+      command="SetInputConnection">
+        <ProxyGroupDomain name="groups">
+                    <Group name="sources"/>
+                    <Group name="filters"/>
+                </ProxyGroupDomain>
+                <DataTypeDomain name="input_type">
+                    <DataType value="vtkPointSet"/>
+                </DataTypeDomain>
+      </InputProperty>
+      
+      <IntVectorProperty name="RPMInsteadOfRadPerSecond"
+                label="RPM Instead Of Rad Per Second"
+                command="SetRPMInsteadOfRadPerSecond"
+                number_of_elements="1"
+                default_values="0">
+                <BooleanDomain name="bool"/>
+            </IntVectorProperty>
+      
+      <DoubleVectorProperty name="FrameRotationSpeed"
+        label="FrameRotationSpeed"
+        command="SetFrameRotationSpeed"
+        number_of_elements="1"
+        default_values="0">
+        <Documentation>Rotation speed of the frame, in rad/s (or rpm if checked)</Documentation>
+      </DoubleVectorProperty>
+      
+      <StringVectorProperty name="FrameName"
+        command="SetFrameName"
+        number_of_elements="1"
+        default_values="xx">
+        <Documentation>Name of the frame. Used to postfix the variable names.</Documentation>
+      </StringVectorProperty>
+      
+      <Hints>
+        <Visibility replace_input="2" />
+        <ShowInMenu category="Izar" />
+      </Hints>
+    </SourceProxy>
+    
+    <SourceProxy name="ConeCut" class="vtkIzarConeCut" label="Cone Cut">
+      <Documentation
+      long_help="Cut along a cone"
+      short_help="Cut along a cone">
+      </Documentation>
+      
+      <InputProperty
+      name="Input"
+      port_index="0"
+      command="SetInputConnection">
+        <ProxyGroupDomain name="groups">
+                    <Group name="sources"/>
+                    <Group name="filters"/>
+                </ProxyGroupDomain>
+                <DataTypeDomain name="input_type">
+                    <DataType value="vtkPointSet"/>
+                </DataTypeDomain>
+      </InputProperty>
+      
+      <DoubleVectorProperty name="XR1"
+        label="XR1"
+        command="SetXR1"
+        number_of_elements="2"
+        default_values="0 0">
+        <Documentation>X and R coordinates for the first point</Documentation>
+      </DoubleVectorProperty>
+      
+      <DoubleVectorProperty name="XR2"
+        label="XR2"
+        command="SetXR2"
+        number_of_elements="2"
+        default_values="0 1">
+        <Documentation>X and R coordinates for the second point</Documentation>
+      </DoubleVectorProperty>
+      
+      <IntVectorProperty name="ClipExtremities"
+                label="Clip Extremities"
+                command="SetClipExtremities"
+                number_of_elements="1"
+                default_values="0">
+                <BooleanDomain name="bool"/>
+            </IntVectorProperty>
+            
+            <IntVectorProperty name="ComputeNormals"
+                label="Compute Normals"
+                command="SetComputeNormals"
+                number_of_elements="1"
+                default_values="0">
+                <BooleanDomain name="bool"/>
+            </IntVectorProperty>
+            
+            <IntVectorProperty name="Parametrize"
+                label="Parametrize"
+                command="SetParametrize"
+                number_of_elements="1"
+                default_values="1">
+                <BooleanDomain name="bool"/>
+            </IntVectorProperty>
+      
+      <Hints>
+        <Visibility replace_input="2" />
+        <ShowInMenu category="Izar" />
+      </Hints>
+    </SourceProxy>
+    
+    <SourceProxy name="XRCutFromCSV" class="vtkIzarXRCutFromCSV" label="XR Cut From CSV">
+      <Documentation
+      long_help="Cut along an axisymmetric surface defined by a meridional line"
+      short_help="Cut along an axisymmetric surface defined by a meridional line">
+      </Documentation>
+      
+      <InputProperty
+      name="Input"
+      port_index="0"
+      command="SetInputConnection">
+        <ProxyGroupDomain name="groups">
+                    <Group name="sources"/>
+                    <Group name="filters"/>
+                </ProxyGroupDomain>
+                <DataTypeDomain name="input_type">
+                    <DataType value="vtkPointSet"/>
+                </DataTypeDomain>
+      </InputProperty>
+      
+      <StringVectorProperty name="FileName"
+        command="SetFileName"
+        number_of_elements="1"
+        default_values="">
+        <FileListDomain name="files" />
+        <Documentation>CSV file containing the definition of the XR curve</Documentation>
+      </StringVectorProperty>
+      
+      <IntVectorProperty name="ClipFirstPoint"
+                label="Clip First Point"
+                command="SetClipFirstPoint"
+                number_of_elements="1"
+                default_values="0">
+                <BooleanDomain name="bool"/>
+            </IntVectorProperty>
+            
+            <IntVectorProperty name="ClipLastPoint"
+                label="Clip Last Point"
+                command="SetClipLastPoint"
+                number_of_elements="1"
+                default_values="0">
+                <BooleanDomain name="bool"/>
+            </IntVectorProperty>
+      
+      <IntVectorProperty name="ComputeNormals"
+                label="Compute Normals"
+                command="SetComputeNormals"
+                number_of_elements="1"
+                default_values="1">
+                <BooleanDomain name="bool"/>
+            </IntVectorProperty>
+            
+            <IntVectorProperty name="Parametrize"
+                label="Parametrize"
+                command="SetParametrize"
+                number_of_elements="1"
+                default_values="1">
+                <BooleanDomain name="bool"/>
+            </IntVectorProperty>
+            
+      <Hints>
+        <Visibility replace_input="2" />
+        <ShowInMenu category="Izar" />
+      </Hints>
+    </SourceProxy>
+  
+    <SourceProxy name="RotateSteady" class="vtkIzarRotateSteady" label="Rotate Steady">
+      <Documentation
+      long_help="Rotates the dataset (steady)"
+      short_help="Rotates the dataset (steady)">
+      </Documentation>
+      
+      <InputProperty
+      name="Input"
+      port_index="0"
+      command="SetInputConnection">
+        <ProxyGroupDomain name="groups">
+                    <Group name="sources"/>
+                    <Group name="filters"/>
+                </ProxyGroupDomain>
+                <DataTypeDomain name="input_type">
+                    <DataType value="vtkPointSet"/>
+                </DataTypeDomain>
+      </InputProperty>
+      
+      <IntVectorProperty command="SetMode"
+                         default_values="0"
+                         name="Mode"
+                         label="Mode"
+                         number_of_elements="1">
+        <EnumerationDomain name="enum">
+          <Entry text="From Angle in Degrees"
+            value="0" />
+          <Entry text="From Angle in Radians"
+            value="1" />
+          <Entry text="From Number of Passage Shifts"
+            value="2" />
+        </EnumerationDomain>
+        <Documentation>Mode used to compute the rotation angle</Documentation>
+      </IntVectorProperty>
+      
+      <DoubleVectorProperty name="AngleInDegrees"
+                label="Angle In Degrees"
+                command="SetAngleInDegrees"
+                number_of_elements="1"
+                default_values="0.0">
+                <Hints>
+          <PropertyWidgetDecorator type="GenericDecorator"
+            mode="visibility"
+                        property="Mode"
+                        value="0" />
+        </Hints>
+            </DoubleVectorProperty>
+            
+            <DoubleVectorProperty name="AngleInRadians"
+                label="Angle In Radians"
+                command="SetAngleInRadians"
+                number_of_elements="1"
+                default_values="0.0">
+                <Hints>
+          <PropertyWidgetDecorator type="GenericDecorator"
+            mode="visibility"
+                        property="Mode"
+                        value="1" />
+        </Hints>
+            </DoubleVectorProperty>
+            
+            <IntVectorProperty name="NumberOfPassagesToShift"
+                label="Number Of Passages To Shift"
+                command="SetNumberOfPassagesToShift"
+                number_of_elements="1"
+                default_values="0">
+                <Hints>
+          <PropertyWidgetDecorator type="GenericDecorator"
+            mode="visibility"
+                        property="Mode"
+                        value="2" />
+        </Hints>
+            </IntVectorProperty>
+      
+      <Hints>
+        <Visibility replace_input="2" />
+        <ShowInMenu category="Izar" />
+      </Hints>
+    </SourceProxy>
+    
+    <SourceProxy name="RotationalDuplication" class="vtkIzarRotationalDuplication" label="Rotational Duplication">
+      <Documentation
+      long_help="Duplicates the dataset"
+      short_help="Duplicates the dataset">
+      </Documentation>
+      
+      <InputProperty
+      name="Input"
+      port_index="0"
+      command="SetInputConnection">
+        <ProxyGroupDomain name="groups">
+                    <Group name="sources"/>
+                    <Group name="filters"/>
+                </ProxyGroupDomain>
+                <DataTypeDomain name="input_type">
+                    <DataType value="vtkDataObject"/>
+                </DataTypeDomain>
+      </InputProperty>
+      
+      <IntVectorProperty name="IndexMin"
+                label="Index Min"
+                command="SetIndexMin"
+                number_of_elements="1"
+                default_values="0">
+            </IntVectorProperty>
+            
+            <IntVectorProperty name="IndexMax"
+                label="Index Max"
+                command="SetIndexMax"
+                number_of_elements="1"
+                default_values="0">
+            </IntVectorProperty>
+            
+            <IntVectorProperty name="ForceSectorPeriodicity"
+                label="Force Sector Periodicity"
+                command="SetForceSectorPeriodicity"
+                number_of_elements="1"
+                default_values="0">
+                <BooleanDomain name="bool"/>
+            </IntVectorProperty>
+      
+      <IntVectorProperty name="ZSector"
+                label="ZSector"
+                command="SetZSector"
+                number_of_elements="1"
+                default_values="1">
+                <Hints>
+          <PropertyWidgetDecorator type="GenericDecorator"
+            mode="visibility"
+                        property="ForceSectorPeriodicity"
+                        value="1" />
+        </Hints>
+            </IntVectorProperty>
+      
+      <Hints>
+        <Visibility replace_input="2" />
+        <ShowInMenu category="Izar" />
+      </Hints>
+    </SourceProxy>
+    
+    <SourceProxy name="ChorochronicDuplication" class="vtkIzarChorochronicDuplication" label="Chorochronic Duplication">
+      <Documentation
+      long_help="Duplicates the dataset"
+      short_help="Duplicates the dataset">
+      </Documentation>
+      
+      <InputProperty
+      name="Input"
+      port_index="0"
+      command="SetInputConnection">
+        <ProxyGroupDomain name="groups">
+                    <Group name="sources"/>
+                    <Group name="filters"/>
+                </ProxyGroupDomain>
+                <DataTypeDomain name="input_type">
+                    <DataType value="vtkDataObject"/>
+                </DataTypeDomain>
+      </InputProperty>
+      
+      <DoubleVectorProperty name="ModeRotationSpeed"
+                label="Mode Rotation Speed"
+                command="SetModeRotationSpeed"
+                number_of_elements="1"
+                default_values="0">
+                <Documentation>Rotation speed of the rotating mode generating the disturbance, relative to the current row</Documentation>
+            </DoubleVectorProperty>
+            
+            <IntVectorProperty command="SetRotationSpeedUnit"
+                         default_values="0"
+                         name="RotationSpeedUnit"
+                         label="RotationSpeedUnit"
+                         number_of_elements="0">
+        <EnumerationDomain name="enum">
+          <Entry text="rad per second"
+            value="0" />
+          <Entry text="RPM"
+            value="1" />
+        </EnumerationDomain>
+      </IntVectorProperty>
+      
+      <IntVectorProperty name="NumberOfDiameters"
+                label="Number Of Diameters"
+                command="SetNumberOfDiameters"
+                number_of_elements="1"
+                default_values="1">
+                <Documentation>Number of diameters of the rotating mode generating the disturbance (eg number of blades in the opposite row)</Documentation>
+            </IntVectorProperty>
+            
+            <IntVectorProperty name="ZSector"
+                label="ZSector"
+                command="SetZSector"
+                number_of_elements="1"
+                default_values="1">
+                <Documentation>Number of duplications of the current domain needed to cover the full 360 degree domain</Documentation>
+            </IntVectorProperty>
+            
+            <IntVectorProperty name="IndexMin"
+                label="Index Min"
+                command="SetIndexMin"
+                number_of_elements="1"
+                default_values="0">
+            </IntVectorProperty>
+            
+            <IntVectorProperty name="IndexMax"
+                label="Index Max"
+                command="SetIndexMax"
+                number_of_elements="1"
+                default_values="0">
+            </IntVectorProperty>
+            
+            <DoubleVectorProperty name="TimeUnitInSeconds"
+                label="Time Unit In Seconds"
+                command="SetTimeUnitInSeconds"
+                number_of_elements="1"
+                default_values="1">
+            </DoubleVectorProperty>
+            
+            <Hints>
+        <Visibility replace_input="2" />
+        <ShowInMenu category="Izar" />
+      </Hints>
+    </SourceProxy>
+    
+    <SourceProxy name="Rotate" class="vtkIzarRotate" label="Rotate">
+      <Documentation
+      long_help="Rotates the dataset (unsteady)"
+      short_help="Rotates the dataset (unsteady)">
+      </Documentation>
+      
+      <InputProperty
+      name="Input"
+      port_index="0"
+      command="SetInputConnection">
+        <ProxyGroupDomain name="groups">
+                    <Group name="sources"/>
+                    <Group name="filters"/>
+                </ProxyGroupDomain>
+                <DataTypeDomain name="input_type">
+                    <DataType value="vtkPointSet"/>
+                </DataTypeDomain>
+      </InputProperty>
+      
+      <DoubleVectorProperty name="RotationSpeed"
+                label="Rotation Speed"
+                command="SetRotationSpeed"
+                number_of_elements="1"
+                default_values="0">
+                <Documentation>Rotation speed to apply to the dataset</Documentation>
+            </DoubleVectorProperty>
+            
+            <IntVectorProperty command="SetRotationSpeedUnit"
+                         default_values="0"
+                         name="RotationSpeedUnit"
+                         label="RotationSpeedUnit"
+                         number_of_elements="0">
+        <EnumerationDomain name="enum">
+          <Entry text="rad per second"
+            value="0" />
+          <Entry text="RPM"
+            value="1" />
+        </EnumerationDomain>
+      </IntVectorProperty>
+      
+      <DoubleVectorProperty name="TimeUnitInSeconds"
+                label="Time Unit In Seconds"
+                command="SetTimeUnitInSeconds"
+                number_of_elements="1"
+                default_values="1">
+                <Documentation>Time unit in seconds</Documentation>
+            </DoubleVectorProperty>
+            
+            <DoubleVectorProperty name="AngleAtInitialTime"
+                label="Angle At Initial Time"
+                command="SetAngleAtInitialTime"
+                number_of_elements="1"
+                default_values="0">
+                <Documentation>Time unit in seconds</Documentation>
+            </DoubleVectorProperty>
+      
+      <Hints>
+        <Visibility replace_input="2" />
+        <ShowInMenu category="Izar" />
+      </Hints>
+    </SourceProxy>
+
+    <SourceProxy name="CylindricalProjection" class="vtkIzarCylindricalProjection" label="Cylindrical Projection">
+      <Documentation
+      long_help="Cylindrical projection"
+      short_help="Cylindrical projection">
+      </Documentation>
+      
+      <InputProperty
+      name="Input"
+      port_index="0"
+      command="SetInputConnection">
+        <ProxyGroupDomain name="groups">
+                    <Group name="sources"/>
+                    <Group name="filters"/>
+                </ProxyGroupDomain>
+                <DataTypeDomain name="input_type">
+                    <DataType value="vtkPointSet"/>
+                </DataTypeDomain>
+      </InputProperty>
+      
+      <DoubleVectorProperty name="Radius"
+                label="Radius"
+                command="SetRadius"
+                number_of_elements="1"
+                default_values="1">
+            </DoubleVectorProperty>
+      
+      <DoubleVectorProperty name="ThetaRef"
+                label="ThetaRef"
+                command="SetThetaRef"
+                number_of_elements="1"
+                default_values="0">
+            </DoubleVectorProperty>
+      
+      <IntVectorProperty name="FlattenNormals"
+                label="Flatten Normals"
+                command="SetFlattenNormals"
+                number_of_elements="1"
+                default_values="0">
+                <BooleanDomain name="bool"/>
+            </IntVectorProperty>
+      
+      <Hints>
+        <Visibility replace_input="2" />
+        <ShowInMenu category="Izar" />
+      </Hints>
+    </SourceProxy>
+    
+    <SourceProxy name="AxialProjection" class="vtkIzarAxialProjection" label="Axial Projection">
+      <Documentation
+      long_help="Axial projection"
+      short_help="Axial projection">
+      </Documentation>
+      
+      <InputProperty
+      name="Input"
+      port_index="0"
+      command="SetInputConnection">
+        <ProxyGroupDomain name="groups">
+                    <Group name="sources"/>
+                    <Group name="filters"/>
+                </ProxyGroupDomain>
+                <DataTypeDomain name="input_type">
+                    <DataType value="vtkPointSet"/>
+                </DataTypeDomain>
+      </InputProperty>
+      
+      <Hints>
+        <Visibility replace_input="2" />
+        <ShowInMenu category="Izar" />
+      </Hints>
+    </SourceProxy>
+    
+    <SourceProxy name="RestoreCoordinates" class="vtkIzarRestoreCoordinates" label="Restore Coordinates">
+      <Documentation
+      long_help="Restore coordinates previously saved"
+      short_help="Restore coordinates previously saved">
+      "Restore coordinates previously saved"
+      </Documentation>
+      
+      <InputProperty
+      name="Input"
+      port_index="0"
+      command="SetInputConnection">
+        <ProxyGroupDomain name="groups">
+                    <Group name="sources"/>
+                    <Group name="filters"/>
+                </ProxyGroupDomain>
+                <DataTypeDomain name="input_type">
+                    <DataType value="vtkPointSet"/>
+                </DataTypeDomain>
+      </InputProperty>
+      
+      <Hints>
+        <Visibility replace_input="2" />
+        <ShowInMenu category="Izar" />
+      </Hints>
+    </SourceProxy>
+    
+    <SourceProxy name="RemoveEmptyBlocks" class="vtkIzarRemoveEmptyBlocks" label="Remove Empty Blocks">
+      <Documentation
+      long_help="Remove empty blocks from a multiblock data set"
+      short_help="Remove empty blocks from a multiblock data set">
+      "Remove empty blocks from a multiblock data set"
+      </Documentation>
+      
+      <InputProperty
+      name="Input"
+      port_index="0"
+      command="SetInputConnection">
+        <ProxyGroupDomain name="groups">
+                    <Group name="sources"/>
+                    <Group name="filters"/>
+                </ProxyGroupDomain>
+                <DataTypeDomain name="input_type">
+                    <DataType value="vtkMultiBlockDataSet"/>
+                </DataTypeDomain>
+      </InputProperty>
+      
+      <Hints>
+        <Visibility replace_input="2" />
+        <ShowInMenu category="Izar" />
+      </Hints>
+    </SourceProxy>
+    
+    <SourceProxy name="ExtractCylindricalComponents" class="vtkIzarExtractCylindricalComponents" label="Extract Cylindrical Components">
+      <Documentation
+      long_help="Extract Cylindrical Components"
+      short_help="Extract Cylindrical Components">
+      "Extract Cylindrical Components"
+      </Documentation>
+      
+      <InputProperty
+      name="Input"
+      port_index="0"
+      command="SetInputConnection">
+        <ProxyGroupDomain name="groups">
+                    <Group name="sources"/>
+                    <Group name="filters"/>
+                </ProxyGroupDomain>
+                <DataTypeDomain name="input_type">
+                    <DataType value="vtkPointSet"/>
+                </DataTypeDomain>
+      </InputProperty>
+      
+      <StringVectorProperty name="VectorName"
+                                    command="SetVectorName"
+                                    number_of_elements="5"
+                                    element_types="0 0 0 0 2"
+                                    label="Vector Name">
+                <ArrayListDomain name="array_list"
+                    attribute_type="Vectors">
+                      <RequiredProperties>
+                            <Property name="Input" function="Input" />
+                      </RequiredProperties>
+                </ArrayListDomain>
+                <FieldDataDomain name="field_list">
+                      <RequiredProperties>
+                            <Property name="Input" function="Input" />
+                      </RequiredProperties>
+                </FieldDataDomain>
+                <Documentation>
+                </Documentation>
+            </StringVectorProperty>
+      
+      <Hints>
+        <Visibility replace_input="2" />
+        <ShowInMenu category="Izar" />
+      </Hints>
+    </SourceProxy>
+
+    <SourceProxy name="FilterPolygons" class="vtkIzarFilterPolygons" label="Filter Polygons">
+      <Documentation
+      long_help="Keep only the polygons in a polydata"
+      short_help="Keep only the polygons in a polydata">
+      "Keep only the polygons in a polydata"
+      </Documentation>
+      
+      <InputProperty
+      name="Input"
+      port_index="0"
+      command="SetInputConnection">
+        <ProxyGroupDomain name="groups">
+                    <Group name="sources"/>
+                    <Group name="filters"/>
+                </ProxyGroupDomain>
+                <DataTypeDomain name="input_type">
+                    <DataType value="vtkPolyData"/>
+                </DataTypeDomain>
+      </InputProperty>
+      
+      <Hints>
+        <Visibility replace_input="2" />
+        <ShowInMenu category="Izar" />
+      </Hints>
+    </SourceProxy>
+    
+    <SourceProxy name="RThetaCalculator" class="vtkIzarRThetaCalculator" label="R Theta Calculator">
+      <Documentation
+      long_help="Computes R and Theta"
+      short_help="Computes R and Theta">
+      "Computes R and Theta"
+      </Documentation>
+      
+      <InputProperty
+      name="Input"
+      port_index="0"
+      command="SetInputConnection">
+        <ProxyGroupDomain name="groups">
+                    <Group name="sources"/>
+                    <Group name="filters"/>
+                </ProxyGroupDomain>
+                <DataTypeDomain name="input_type">
+                    <DataType value="vtkPointSet"/>
+                </DataTypeDomain>
+      </InputProperty>
+      
+      <Hints>
+        <Visibility replace_input="2" />
+        <ShowInMenu category="Izar" />
+      </Hints>
+    </SourceProxy>
+    
+  </ProxyGroup>
+</ServerManagerConfiguration>
+
