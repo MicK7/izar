@@ -57,8 +57,8 @@ ADD_PARAVIEW_PLUGIN(Izar "0.1"
 				vtkIzarRemoveEmptyBlocks.cpp
 				vtkIzarExtractCylindricalComponents.cpp
 				vtkIzarFilterPolygons.cpp
-				vtkIzarRThetaCalculator.cpp
-				IzarHelpers.cpp)
+				vtkIzarRThetaCalculator.cpp			
+ SERVER_SOURCES			IzarHelpers.cpp)
 
 set_property(TARGET Izar PROPERTY CXX_STANDARD 11)
 target_link_libraries(Izar LINK_PRIVATE ${LIBS})
