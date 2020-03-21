@@ -355,19 +355,13 @@ that matches your filter and then model your xml on it -->
                 name="FieldName"
                 number_of_elements="5">
         <ArrayListDomain attribute_type="Scalars"
-          name="array_list">
+          name="array_list"
+          input_domain_name="inputs_array">
           <RequiredProperties>
             <Property function="Input"
               name="Input" />
           </RequiredProperties>
         </ArrayListDomain>
-        <FieldDataDomain name="field_list"
-          enable_field_data="1">
-          <RequiredProperties>
-            <Property function="Input"
-              name="Input" />
-          </RequiredProperties>
-        </FieldDataDomain>
         <Documentation>The value of this property contains the name of the
           scalar array from which to perform thresholding.</Documentation>
       </StringVectorProperty>
@@ -1677,16 +1671,12 @@ that matches your filter and then model your xml on it -->
                                     element_types="0 0 0 0 2"
                                     label="Vector Name">
                 <ArrayListDomain name="array_list"
-                    attribute_type="Vectors">
+                    attribute_type="Vectors"
+                    input_domain_name="inputs_array">
                       <RequiredProperties>
                             <Property name="Input" function="Input" />
                       </RequiredProperties>
                 </ArrayListDomain>
-                <FieldDataDomain name="field_list">
-                      <RequiredProperties>
-                            <Property name="Input" function="Input" />
-                      </RequiredProperties>
-                </FieldDataDomain>
                 <Documentation>
                 </Documentation>
             </StringVectorProperty>

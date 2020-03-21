@@ -1,0 +1,9 @@
+NAME
+  Izar::IzarModule
+LIBRARY_NAME
+  IzarModule
+DEPENDS
+  VTK::CommonCore
+  VTK::CommonDataModel
+  VTK::CommonExecutionModel
+  VTK::FiltersExtraction

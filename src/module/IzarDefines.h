@@ -73,7 +73,7 @@
 /* Warnings */
 #ifdef PRINT_SUPPORT_WARNING
 	#define IZAR_WARNING \
-		vtkErrorMacro("Avertissement : ce filtre est experimental. A utiliser en connaissance de cause.")
+		vtkErrorMacro("Avertissement : ce filtre est experimental. A utiliser en connaissance de cause.");
 #else
 	#define IZAR_WARNING
 #endif

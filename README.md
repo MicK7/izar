@@ -31,16 +31,13 @@ To install on Linux:
 git clone Izar
 ```
 ```
-cd Izar
+mkdir build_izar
 ```
 ```
-mkdir build 
+cd build_izar 
 ```
 ```
-cd build 
-```
-```
-ccmake ../src
+ccmake ../Izar
 ```
 
 Do the configuration to define ParaView compile location

@@ -72,7 +72,7 @@ int vtkIzarGenericXRCut::RequestData(vtkInformation* request,
 		inInfo->Get(vtkDataObject::DATA_OBJECT()));
 	if(!inData)
 	{
-		vtkErrorMacro("Error while retrieivng the input object. Make sure that this is a PointSet.")
+		vtkErrorMacro("Error while retrieivng the input object. Make sure that this is a PointSet.");
 		return 0;
 	}
 	
@@ -89,12 +89,12 @@ int vtkIzarGenericXRCut::RequestData(vtkInformation* request,
 	/* Perform some checks */
 	if(this->XList.size() != this->RList.size())
 	{
-		vtkErrorMacro("X and R size mismatch")
+		vtkErrorMacro("X and R size mismatch");
 		return 0;
 	}
 	if(this->XList.size() < 2)
 	{
-		vtkErrorMacro("Not enough points in the XR lists")
+		vtkErrorMacro("Not enough points in the XR lists");
 		return 0;
 	}
 	
@@ -300,8 +300,8 @@ void vtkIzarSMPXRCutter::operator() (vtkIdType begin, vtkIdType end)
 			}
 			
 			// Normals at the cells
-			vtkIdType nCellPts;
-			vtkIdType* cellPts;
+			vtkIdType nCellPts(0);
+			const vtkIdType* cellPts(nullptr);
 			vtkIdType idCell = 0;
 			vtkCellArray* ca = output[ii]->GetPolys();
 			ca->InitTraversal();

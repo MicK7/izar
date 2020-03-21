@@ -55,7 +55,7 @@ void vtkIzarAddFieldDataGeneric::SetElementList(const char* str)
 			lineEnd++;
 		}
 		std::string curLine = this->ElementList.substr(lineBegin, lineEnd-lineBegin);
-		vtkDebugMacro("Read line " << curLine)
+		vtkDebugMacro("Read line " << curLine);
 		// Test if line is blank
 		bool isBlank = true;
 		for(int ii = 0 ; ii < curLine.size() ; ii++)
@@ -81,7 +81,7 @@ void vtkIzarAddFieldDataGeneric::SetElementList(const char* str)
 				{
 					vtkErrorMacro("Error while parsing line " << iLine << ":\n" <<
 						"\"" << curLine << "\"\n" << 
-						"FieldData name started with a quote (\"), but does not contains the ending quote")
+						"FieldData name started with a quote (\"), but does not contains the ending quote");
 					this->clearData();
 					return;
 				}
@@ -94,13 +94,13 @@ void vtkIzarAddFieldDataGeneric::SetElementList(const char* str)
 				{
 					vtkErrorMacro("Error while parsing line " << iLine << ":\n" <<
 						"\"" << curLine << "\"\n" <<
-						"Cannot find the value")
+						"Cannot find the value");
 					this->clearData();
 					return;
 				}
 			}
 			std::string fieldName = curLine.substr(beginFieldName, endFieldName-beginFieldName);
-			vtkDebugMacro("FieldName read : " << fieldName)
+			vtkDebugMacro("FieldName read : " << fieldName);
 			
 			// Then, the value
 			int beginValue = curLine.find_first_not_of(' ', endFieldName+1);
@@ -108,7 +108,7 @@ void vtkIzarAddFieldDataGeneric::SetElementList(const char* str)
 			{
 				vtkErrorMacro("Error while parsing line " << iLine << ":\n" <<
 					"\"" << curLine << "\"\n" <<
-					"Cannot find the value")
+					"Cannot find the value");
 				this->clearData();
 				return;
 			}
@@ -121,7 +121,7 @@ void vtkIzarAddFieldDataGeneric::SetElementList(const char* str)
 				{
 					vtkErrorMacro("Error while parsing line " << iLine << ":\n" <<
 						"\"" << curLine << "\"\n" <<
-						"Trailing characters after the value")
+						"Trailing characters after the value");
 					this->clearData();
 					return;
 				}
@@ -151,11 +151,11 @@ void vtkIzarAddFieldDataGeneric::SetElementList(const char* str)
 					vtkErrorMacro("Error while parsing line " << iLine << ":\n" <<
 						"\"" << curLine << "\"\n" <<
 						"Cannot convert \"" << valueStr << "\" to double\n" <<
-						"(" << ia.what() << ")")
+						"(" << ia.what() << ")");
 					this->clearData();
 					return;
 				}
-				vtkDebugMacro("Double value read " << val)
+				vtkDebugMacro("Double value read " << val);
 				this->AddDoubleData(fieldName, val);
 			}
 			else
@@ -176,11 +176,11 @@ void vtkIzarAddFieldDataGeneric::SetElementList(const char* str)
 					vtkErrorMacro("Error while parsing line " << iLine << ":\n" <<
 						"\"" << curLine << "\"\n" <<
 						"Cannot convert \"" << valueStr << "\" to int\n" <<
-						"(" << ia.what() << ")")
+						"(" << ia.what() << ")");
 					this->clearData();
 					return;
 				}
-				vtkDebugMacro("Int value read " << val)
+				vtkDebugMacro("Int value read " << val);
 				this->AddIntData(fieldName, val);
 			}
 		}

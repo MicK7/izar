@@ -1,0 +1,9 @@
+NAME
+  Izar
+DESCRIPTION
+  Izar is useful for CFD post-processing
+REQUIRES_MODULES
+  VTK::CommonCore
+  VTK::CommonDataModel
+  VTK::CommonExecutionModel
+  VTK::FiltersExtraction
