@@ -28,10 +28,7 @@ include_directories(${YAML_CPP_INCLUDE_DIR})
 include_directories(${Boost_INCLUDE_DIR})
 set(LIBS ${LIBS} ${YAML_CPP_LIBRARIES} ${Boost_LIBRARIES})
 
-#set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 set(CMAKE_CXX_STANDARD 11)
-
-set(CMAKE_VERBOSE_MAKEFILE ON)
 
 # Scan the plugin file in order to set up internal data structures for building
 # plugins.
