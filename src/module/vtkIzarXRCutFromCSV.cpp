@@ -16,7 +16,7 @@ vtkIzarXRCutFromCSV::~vtkIzarXRCutFromCSV()
 {
 }
 
-void vtkIzarXRCutFromCSV::PrintSelf(ostream& os, vtkIndent indent)
+void vtkIzarXRCutFromCSV::PrintSelf(std::ostream& os, vtkIndent indent)
 {
 	os << indent << "vtkIzarXRCutFromCSV\n";
 }
@@ -39,7 +39,7 @@ bool vtkIzarXRCutFromCSV::FillXRFromCSVFile()
 	this->XList.clear();
 	this->RList.clear();
 	
-	ifstream ifs;
+	std::ifstream ifs;
 	ifs.open(this->FileName);
 	if(ifs.fail())
 	{
