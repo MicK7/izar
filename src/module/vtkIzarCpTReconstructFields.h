@@ -166,13 +166,13 @@ public:
     for(vtkIdType ii = begin; ii != end; ii++)
       {
       // Velocities
-      ValueType tmpW[3];
+      ValueType tmpV[3];
       for(int dim = 0; dim < 3; dim++)
         {
-        tmpW[dim] = rhov[ii*3+dim]/rho[ii];
+        tmpV[dim] = rhov[ii*3+dim]/rho[ii];
         }
-      ValueType tmpMagW2 = tmpW[0]*tmpW[0] + tmpW[1]*tmpW[1] + tmpW[2]*tmpW[2];
-      ValueType tmpCoeff = (rhoe[ii]/rho[ii] - 0.5*tmpMagW2 - rmix*T0 - energy_offset);
+      ValueType tmpMagW2 = tmpV[0]*tmpV[0] + tmpV[1]*tmpV[1] + tmpV[2]*tmpV[2];
+      ValueType tmpCoeff = (rhoe[ii]/rho[ii] - 0.5*tmpMagV2 - rmix*T0 - energy_offset);
       coeff[ii] = tmpCoeff + cpIndefIntegralAtT0;
       ts[ii] = (tmpCoeff + T0*pente)/num;
       }
@@ -272,24 +272,24 @@ public:
       ValueType tmpV[3];
       for(int dim = 0; dim < 3; dim++)
         {
-        tmpW[dim] = rhov[ii*3+dim]/rho[ii];
+        tmpV[dim] = rhov[ii*3+dim]/rho[ii];
         }
       ValueType tmpR = sqrt(coords[ii*3+1]*coords[ii*3+1] + coords[ii*3+2]*coords[ii*3+2]);
       ValueType tmpTheta = atan2(coords[ii*3+2], coords[ii*3+1]);
       ValueType tmpCos = cos(tmpTheta);
       ValueType tmpSin = sin(tmpTheta);
-      ValueType tmpMagW2 = tmpW[0]*tmpW[0] + tmpW[1]*tmpW[1] + tmpW[2]*tmpW[2];
-      ValueType tmpWr = tmpW[1]*tmpCos + tmpW[2]*tmpSin;
-      ValueType tmpWt = -tmpW[1]*tmpSin + tmpW[2]*tmpCos;
-      ValueType tmpVt = tmpWt + tmpR*omega;
-      tmpV[0] = tmpW[0];
-      tmpV[1] = tmpCos*tmpWr - tmpSin*tmpVt;
-      tmpV[2] = tmpSin*tmpWr + tmpCos*tmpVt;
       ValueType tmpMagV2 = tmpV[0]*tmpV[0] + tmpV[1]*tmpV[1] + tmpV[2]*tmpV[2];
+      ValueType tmpVr = tmpV[1]*tmpCos + tmpV[2]*tmpSin;
+      ValueType tmpVt = -tmpV[1]*tmpSin + tmpV[2]*tmpCos;
+      ValueType tmpVt = tmpVt - tmpR*omega;
+      tmpW[0] = tmpV[0];
+      tmpW[1] = tmpCos*tmpVr - tmpSin*tmpWt;
+      tmpW[2] = tmpSin*tmpVr + tmpCos*tmpWt;
+      ValueType tmpMagW2 = tmpW[0]*tmpW[0] + tmpW[1]*tmpW[1] + tmpW[2]*tmpW[2];
 
       // Angles
-      ValueType tmpWm = sqrt(tmpW[0]*tmpW[0] + tmpWr*tmpWr);
-      ValueType tmpPhi = atan2(tmpWr, tmpW[0]);
+      ValueType tmpWm = sqrt(tmpW[0]*tmpW[0] + tmpVr*tmpVr);
+      ValueType tmpPhi = atan2(tmpVr, tmpW[0]);
       ValueType tmpAlpha = vtkMath::DegreesFromRadians(atan2(tmpVt, tmpWm));
       ValueType tmpBeta = vtkMath::DegreesFromRadians(atan2(tmpWt, tmpWm));
 
